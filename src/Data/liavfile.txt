@@ -1,0 +1,9 @@
+<?xml version= "1.0" encoding= "utf-8"?>
+	
+<config>
+
+<value1>fdsfjbgksdjb@gmail.com</value1>
+<value2>ACV$@#56nfsd</value2>
+
+
+</config>
