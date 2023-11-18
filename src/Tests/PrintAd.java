@@ -17,6 +17,7 @@ String channelName= "@marvel";
         driver.get("https://www.youtube.com/"+channelName);
         homePage.loginToVidiq();
         homePage.GetAllTrendVideos();
+        homePage.BrowseTrhugevideos();
 
 
 }

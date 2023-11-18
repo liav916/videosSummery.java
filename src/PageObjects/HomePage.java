@@ -2,7 +2,11 @@ package PageObjects;
 
 
 import org.openqa.selenium.*;
+import org.w3c.dom.Document;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -13,72 +17,76 @@ public class HomePage extends BasePage {
     public HomePage(WebDriver driver) {
         super(driver);
     }
+
     By switchToLoginButton = By.cssSelector("span[role=\"button\"]");
     By googleEmailField = By.cssSelector("input[type=\"email\"]");
     By googlePasswordField = By.cssSelector("input[type=\"password\"]");
     By googlesubmitbutton = By.cssSelector("button[type=\"submit\"]");
-
-
-
     By vidiqExtensionButton = By.cssSelector("button[class^=\"vidiq-dropdown-button\"]");
 
-    private  String readXmlValue(String tagName) {
-        return "tagvalue";
-    }
-    public void BrowseTrhugevideos(){
-        List<WebElement> videos = driver.findElements(By.className("vidiq-c-fvFDqp-fjjEuV-size-sm"));
-    for (int i = 0; i < videos.size(); i++) {
-        try {
-            Thread.sleep(15000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        WebElement temp = videos.get(i);
-   temp.click();
-    }
-    }
 
-    public void GetAllTrendVideos()
-    {
+
+
+
+
+    public void BrowseTrhugevideos(){
+        List<WebElement> videos = driver.findElements(By.cssSelector("[class=\"vidiq-c-lesPJm.vidiq-c-lesPJm-ikDVlAw-css\"]"));
+        System.out.println("Videos: " + videos.size());
+    for (int i = 0; i < videos.size(); i++) {
+      videos = driver.findElements(By.cssSelector("[class=\"vidiq-c-lesPJm.vidiq-c-lesPJm-ikDVlAw-css\"]"));
+        try {
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {System.out.println("did not sleep");}
+        WebElement temp = videos.get(i);
+
+        temp.click();
+        driver.navigate().back();
+
+    }
+    }
+    public void GetAllTrendVideos(){
+
         click(vidiqExtensionButton);
         List<WebElement> dropdown = driver.findElements(By.cssSelector("div[class=\"css-4ebkc2 e1qzsphf0\"]"));
         dropdown.get(0).click();
 
         }
-
-
-public void loginToVidiq() {
+    public void loginToVidiq() {
     Set<String> allWindowHandles = driver.getWindowHandles();
     List<String> windowHandlesList = new ArrayList<>(allWindowHandles);
     driver.switchTo().window(windowHandlesList.get(1));
     preformLoginToVidiq();
     driver.switchTo().window(windowHandlesList.get(0));
-
 }
-    public void preformLoginToVidiq() {
+    public void preformLoginToVidiq()   {
         String expectedUrl = "https://app.vidiq.com/extension_login_success";
         waitForElement(switchToLoginButton);
         click(switchToLoginButton);
         waitForElement(googleEmailField);
         waitForElement(googlePasswordField);
         click(googleEmailField);
-      String   emailadddd = readXmlValue("value1");
-      System.out.println(emailadddd);
-        sendKeys(googleEmailField, "fdsfjbgksdjb@gmail.com");
+        try{
+        String emailValue = readFromFile("value1");
+        String PasswordValue = readFromFile("value2");
+        sendKeys(googleEmailField, emailValue);
         click(googlePasswordField);
-        sendKeys(googlePasswordField, "ACV$@#56nfsd");
-        click(googlesubmitbutton);
+        sendKeys(googlePasswordField, PasswordValue);
+        click(googlesubmitbutton);}catch(Exception e){}
         while (!driver.getCurrentUrl().equals(expectedUrl)) {
-            System.out.println(driver.getCurrentUrl());
-            // Add a short delay between iterations to avoid unnecessary CPU usage
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {}
         }
         driver.close();
     }
-
-
+    private static String readFromFile(String keydata) throws Exception {
+        String filePath = "C:\\Users\\liav\\IdeaProjects\\Videos\\src\\Data\\liavfile.txt";
+        File file = new File(filePath);
+        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+        Document doc = dBuilder.parse(file);
+        return doc.getElementsByTagName(keydata).item(0).getTextContent();
+    }
 
 
 

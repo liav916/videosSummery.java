@@ -6,12 +6,16 @@ import org.junit.BeforeClass;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.w3c.dom.Document;
 ;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
 
 public class BaseTest {
+
     static HomePage homePage;
     static WebDriver driver;
 
@@ -29,7 +33,9 @@ public class BaseTest {
         resetPage();
         driver.manage().window().maximize();
     }
-    private static String getExtensionPathVidiq() {
+
+
+        private static String getExtensionPathVidiq() {
         // Generate the path to your extension directory
         return "C:\\Users\\liav\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Extensions\\pachckjkecffpdphbpmfolblodfkgbhl\\3.99.0_0";
     }
