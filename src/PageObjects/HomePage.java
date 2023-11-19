@@ -2,6 +2,7 @@ package PageObjects;
 
 
 import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.w3c.dom.Document;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -24,31 +25,41 @@ public class HomePage extends BasePage {
     By googlesubmitbutton = By.cssSelector("button[type=\"submit\"]");
     By vidiqExtensionButton = By.cssSelector("button[class^=\"vidiq-dropdown-button\"]");
 
+By id = By.className("vidiq-c-lesPJm\"");
 
 
 
 
+    public void BrowseTrhugevideos() throws InterruptedException {
+       // List<WebElement> elements = driver.findElements(By.className("vidiq-c-lesPJm"));
+        Thread.sleep(15000);
+        List<WebElement> elements = driver.findElements(By.className("vidiq-c-hbWfAH"));
+        System.out.println("Videos: " + elements);
+        for (WebElement element : elements) {
+            element.click();
 
-    public void BrowseTrhugevideos(){
-        List<WebElement> videos = driver.findElements(By.cssSelector("[class=\"vidiq-c-lesPJm.vidiq-c-lesPJm-ikDVlAw-css\"]"));
-        System.out.println("Videos: " + videos.size());
-    for (int i = 0; i < videos.size(); i++) {
-      videos = driver.findElements(By.cssSelector("[class=\"vidiq-c-lesPJm.vidiq-c-lesPJm-ikDVlAw-css\"]"));
-        try {
-            Thread.sleep(10000);
-        } catch (InterruptedException e) {System.out.println("did not sleep");}
-        WebElement temp = videos.get(i);
-
-        temp.click();
-        driver.navigate().back();
+//        ChromeOptions options = new ChromeOptions();
+//        options.addArguments("load-extension=" + BaseTest.getExtensionPathHarpa());
 
     }
     }
-    public void GetAllTrendVideos(){
-
+    public void GetAllTrendVideos() throws InterruptedException {
+        driver.navigate().refresh();
+        Thread.sleep(15000);
         click(vidiqExtensionButton);
-        List<WebElement> dropdown = driver.findElements(By.cssSelector("div[class=\"css-4ebkc2 e1qzsphf0\"]"));
+        List<WebElement> dropdown = driver.findElements(By.className("e1qzsphf0"));
         dropdown.get(0).click();
+
+
+//        try{
+//            waitForElement(id);}
+//        catch(Exception e) {
+//            driver.navigate().refresh();
+//           waitForElement(vidiqExtensionButton);
+//            click(vidiqExtensionButton);
+//            dropdown = driver.findElements(By.cssSelector("div[class=\"css-4ebkc2 e1qzsphf0\"]"));
+//            dropdown.get(0).click();
+//        }
 
         }
     public void loginToVidiq() {
@@ -57,7 +68,8 @@ public class HomePage extends BasePage {
     driver.switchTo().window(windowHandlesList.get(1));
     preformLoginToVidiq();
     driver.switchTo().window(windowHandlesList.get(0));
-}
+
+} //done
     public void preformLoginToVidiq()   {
         String expectedUrl = "https://app.vidiq.com/extension_login_success";
         waitForElement(switchToLoginButton);
@@ -78,191 +90,16 @@ public class HomePage extends BasePage {
             } catch (InterruptedException e) {}
         }
         driver.close();
-    }
-    private static String readFromFile(String keydata) throws Exception {
+    }//done
+    private  String readFromFile(String keydata) throws Exception {
         String filePath = "C:\\Users\\liav\\IdeaProjects\\Videos\\src\\Data\\liavfile.txt";
         File file = new File(filePath);
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
         Document doc = dBuilder.parse(file);
         return doc.getElementsByTagName(keydata).item(0).getTextContent();
-    }
+    } //done
 
-
-
-
-
-
-//    public void Post(String storeName, String storeService, String storeAddress, String storeNumber) throws Exception {
-//        HttpClient httpClient = HttpClient.newHttpClient();
-//        // Replace with the actual API endpoint
-//        String apiUrl = "https://script.google.com/macros/s/AKfycbw_MLiirmtNkNWpeOI-zHqDfca5pCnhuNn2ll_qRfvCKbYavvCnOQ4oYS8CvUwcd3eZzw/exec";
-//        // Replace with the desired JSON payload
-//        String jsonPayload = "{\n" +
-//                "  \"city\":\""+City+"\",\n" +
-//                "  \"storeName\":\"" + storeName + "\",\n" +
-//                "  \"storeService\":\"" + storeService + "\",\n" +
-//                "  \"address\":\"" + storeAddress + "\",\n" +
-//                "  \"phone\":\"" + storeNumber + "\"\n" +
-//                "}";
-//        HttpRequest request = HttpRequest.newBuilder()
-//                .uri(new URI(apiUrl))
-//                .POST(HttpRequest.BodyPublishers.ofString(jsonPayload))
-//                .header("Content-Type", "application/json") // Set the content type to JSON
-//                .build();
-//        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-//        // Check the HTTP status code
-//        int statusCode = response.statusCode();
-//        if (statusCode == 302) { // 201 indicates a successful creation in many APIs
-//            String responseBody = response.body();
-//            System.out.println("status code: " + statusCode);
-//            System.out.println("Response Body:\n" + responseBody);
-//        } else {
-//            System.out.println("POST request failed with status code: " + statusCode);
-//            System.out.println(jsonPayload);
-//        }
-//    }
-//
-//    public void recaptchapass() throws InterruptedException {
-//        boolean captchaPresent = isElementPresent(recaptcha);
-//
-//        while (captchaPresent) {
-//            System.out.println("Captcha detected. Please manually pass the captcha.");
-//            Thread.sleep(20000); // Sleep for 5 seconds before checking again
-//
-//            captchaPresent = isElementPresent(recaptcha);
-//        }
-//
-//        System.out.println("Captcha passed or not detected.");
-//        Thread.sleep(10000);
-//    }
-//    public boolean isElementPresent(By by) {
-//        try {
-//            driver.findElement(by);
-//            return true;
-//        } catch (NoSuchElementException e) {
-//            return false;
-//        }
-//    }
-//    public void clickOnMoreAds() throws InterruptedException {
-//    Thread.sleep(1000);
-//  try {
-//      WebElement nextButtonElement = driver.findElement(nextButton);
-//        waitForElement(nextButton);
-//        if (nextButtonElement.isDisplayed()){
-//            ScrollAndClick(nextButton);
-//        }
-//        clickOnMoreAds();}catch (NoSuchElementException e) {}  }
-//    public void ScrollAndClick (By by) {
-//        WebElement elementToClick = driver.findElement(by);
-//        JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
-//        jsExecutor.executeScript("arguments[0].scrollIntoView(true);", elementToClick);
-//        // Click the element
-//        elementToClick.click();
-//
-//
-//}
-//    public void clickOnPosts() throws Exception {
-//        recaptchapass();
-//        WebElement allPostsElement = driver.findElement(allPostsConteiner);
-//        waitForElement(allPostsConteiner);
-//        List<WebElement> posts;
-//        clickOnMoreAds();
-//        Thread.sleep(3000);
-//        recaptchapass();
-//       // posts = allPostsElement.findElements(By.cssSelector("[class^='list-results-scroll'] li"));
-//        posts = allPostsElement.findElements(By.cssSelector(".list-results li"));
-//
-//        System.out.println("post size is" + posts.size());
-//        for (int i = 0; i < posts.size(); i++) {
-//            recaptchapass();
-//            WebElement post = posts.get(i);
-//            try {
-//            //    Thread.sleep(1000);
-//                scrollToElementAndClick(post);
-//            } catch (StaleElementReferenceException e) {
-//                System.out.println("Stale element reference, retrying click...");
-//                WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10)); // Adjust the timeout as needed
-//                post = wait.until(ExpectedConditions.elementToBeClickable(posts.get(i)));
-//                scrollToElementAndClick2(post);             //  post.click();
-//            }
-//
-//
-//            // Extract information
-//            String storeName = getStoreInfo(ByStoreName, i);
-//            String storeService = getStoreService(ByStoreService, i);
-//            String storeAddress = getStoreInfo(ByStoreAddress, i);
-//            String storeNumber = getStoreInfo(ByStoreNumber, i);
-//            storeAddress = storeAddress.replace("\"", "'");
-//System.out.println("storeName : "+storeName+"\n"+
-//                   "storeService : "+storeService+"\n"+
-//                   "storeAddress : "+storeAddress+"\n"+
-//                   "storeNumber : "+storeNumber+"\n"+
-//                   "post number: " + i+"\n"+"------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
-//
-//
-//
-//            // Call the Post method with the extracted values
-//            Post(storeName, storeService, storeAddress, storeNumber);
-//
-//            waitForElement(BackButton);
-//            Thread.sleep(2000);
-//
-////           String currentURL = driver.getCurrentUrl();
-//           try{ click(BackButton);} catch (ElementClickInterceptedException e){driver.navigate().back();
-//           }
-//            //
-////            Thread.sleep(1000);
-////            String currentURL2 = driver.getCurrentUrl();
-////if (currentURL.equals(currentURL2))
-////{click(BackButton);}
-//
-//
-//            clickOnMoreAds();
-//            waitForElement(allPostsConteiner);
-//            recaptchapass();
-//        }
-//    }
-//    public String getStoreInfo(By by, int index)  {
-//
-//        String StoreName;
-//       try{ waitForElement(by); // Make sure this method correctly waits for the element
-//        WebElement element = driver.findElement(by); // Assuming 'driver' is your WebDriver instance
-//        StoreName = element.getText();}
-//        catch (TimeoutException e){
-//            StoreName = "there is no phone number for the this buisnes";
-//        }
-//
-//        // Remove the word "מנוהל" from StoreName
-//        StoreName = StoreName.replace("מנוהל", "").trim();
-//        StoreName = StoreName.replace("\"", "'");
-//
-//
-//       // System.out.println("Post Number: " + index+" "+ StoreName);
-//        return StoreName;
-//    }
-//
-//    public String getStoreService(By by, int index)  {
-//        WebElement element = driver.findElement(BYTotal); // Assuming 'driver' is your WebDriver instance
-//        WebElement element1 = element.findElement(by); // Assuming 'driver' is your WebDriver instance
-//
-//        String StoreName;
-//        waitForElement(by); // Make sure this method correctly waits for the element
-//        StoreName = element1.getText();
-//        // Remove the word "מנוהל" from StoreName
-//
-//
-//        if (StoreName.contains("חלקי"))
-//        {
-//            StoreName = "חנות";
-//        }
-//else
-//        {
-//            StoreName = "נותן שירות";
-//        }
-//       // System.out.println("Post Number: " + index+" :"+ StoreName);
-//        return StoreName;
-//    }
 }
 
 

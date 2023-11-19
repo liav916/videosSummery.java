@@ -11,7 +11,7 @@ import java.io.IOException;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class PrintAd extends BaseTest {
 
-String channelName= "@marvel";
+String channelName= "@KAN11";
     @Test
     public void test01getAdvertisement () throws Exception {
         driver.get("https://www.youtube.com/"+channelName);
