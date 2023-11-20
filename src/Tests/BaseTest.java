@@ -17,30 +17,26 @@ import java.util.Collections;
 public class BaseTest {
 
     static HomePage homePage;
-    static WebDriver driver;
-
+  //  static WebDriver driver;
+     static ChromeDriver driver;
     @BeforeClass
     public static void setUp() {
         System.setProperty("webdriver.chrome.driver", "C:\\chromedriver\\chromedriver.exe");
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("load-extension=" + getExtensionPathVidiq());
-    //    options.addArguments("load-extension=" + getExtensionPathHarpa());
+        options.addArguments("load-extension=" + getExtensionPathVidiq() + "," + getExtensionPathHarpa());
         options.addArguments("--remote-allow-origins=*");
         options.setExperimentalOption("excludeSwitches", Collections.singletonList("enable-automation"));
-        options.addArguments("--disable-blink-features=AutomationControlled");
-
+       options.addArguments("--disable-blink-features=AutomationControlled");
         driver = new ChromeDriver(options);
         resetPage();
         driver.manage().window().maximize();
     }
 
 
-        private static String getExtensionPathVidiq() {
-        // Generate the path to your extension directory
-        return "C:\\Users\\liav\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Extensions\\pachckjkecffpdphbpmfolblodfkgbhl\\3.99.0_0";
+        private static String getExtensionPathVidiq()  {
+            return "C:\\Users\\liav\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Extensions\\pachckjkecffpdphbpmfolblodfkgbhl\\3.99.0_0";
     }
     public static String getExtensionPathHarpa() {
-       // Generate the path to your extension directory
         return "C:\\Users\\liav\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Extensions\\eanggfilgoajaocelnaflolkadkeghjp\\7.0.2_0";
     }
 

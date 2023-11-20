@@ -2,7 +2,9 @@ package PageObjects;
 
 
 import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.interactions.Actions;
 import org.w3c.dom.Document;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -10,6 +12,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 
@@ -25,47 +28,40 @@ public class HomePage extends BasePage {
     By googlesubmitbutton = By.cssSelector("button[type=\"submit\"]");
     By vidiqExtensionButton = By.cssSelector("button[class^=\"vidiq-dropdown-button\"]");
 
-By id = By.className("vidiq-c-lesPJm\"");
 
 
-
-
+    public void driverActiveHarpa() {
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("load-extension=" + BaseTest.getExtensionPathHarpa());
+        }
     public void BrowseTrhugevideos() throws InterruptedException {
-       // List<WebElement> elements = driver.findElements(By.className("vidiq-c-lesPJm"));
+
         Thread.sleep(15000);
         List<WebElement> elements = driver.findElements(By.className("vidiq-c-hbWfAH"));
         System.out.println("Videos: " + elements);
         for (WebElement element : elements) {
-            element.click();
+           element.click();
+            Set<String> allWindowHandles = driver.getWindowHandles();
+            List<String> windowHandlesList = new ArrayList<>(allWindowHandles);
+            driver.switchTo().window(windowHandlesList.get(1));
+            driver.close();
+            driver.switchTo().window(windowHandlesList.get(0));
 
-//        ChromeOptions options = new ChromeOptions();
-//        options.addArguments("load-extension=" + BaseTest.getExtensionPathHarpa());
-
-    }
-    }
+        }}
     public void GetAllTrendVideos() throws InterruptedException {
         driver.navigate().refresh();
         Thread.sleep(15000);
         click(vidiqExtensionButton);
         List<WebElement> dropdown = driver.findElements(By.className("e1qzsphf0"));
         dropdown.get(0).click();
-
-
-//        try{
-//            waitForElement(id);}
-//        catch(Exception e) {
-//            driver.navigate().refresh();
-//           waitForElement(vidiqExtensionButton);
-//            click(vidiqExtensionButton);
-//            dropdown = driver.findElements(By.cssSelector("div[class=\"css-4ebkc2 e1qzsphf0\"]"));
-//            dropdown.get(0).click();
-//        }
-
-        }
-    public void loginToVidiq() {
+        } //done
+    public void loginToVidiq() throws InterruptedException {
     Set<String> allWindowHandles = driver.getWindowHandles();
     List<String> windowHandlesList = new ArrayList<>(allWindowHandles);
+    Thread.sleep(2000);
     driver.switchTo().window(windowHandlesList.get(1));
+    driver.close();
+    driver.switchTo().window(windowHandlesList.get(2));
     preformLoginToVidiq();
     driver.switchTo().window(windowHandlesList.get(0));
 

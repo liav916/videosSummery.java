@@ -16,6 +16,7 @@ String channelName= "@KAN11";
     public void test01getAdvertisement () throws Exception {
         driver.get("https://www.youtube.com/"+channelName);
         homePage.loginToVidiq();
+
         homePage.GetAllTrendVideos();
         homePage.BrowseTrhugevideos();
 
